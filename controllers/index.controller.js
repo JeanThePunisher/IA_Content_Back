@@ -10,11 +10,7 @@ const bcrypt = require('bcryptjs');
 const {Pool} = require('pg');
 
 const pool = new Pool ({
-    host:'localhost',
-    user: 'postgres',
-    password: '123456',
-    database: 'ia_content',
-    port: '5432'
+    connectionString: process.env.DATABASE_URL
 });
 
 
