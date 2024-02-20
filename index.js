@@ -1,6 +1,9 @@
 //Módulo de Express
 const express = require('express');
+const cors = require('cors');
 const app = express();
+//CORS
+app.use(cors());
 
 //middlewares
 app.use(express.json());
