@@ -37,15 +37,15 @@ const postIA = async (req, res) => {
     }
 };
   
-// Función para obtener recursos didácticos utilizando tu función de generación
-async function obtenerRecursos(materia) {
+ // Función para obtener recursos didácticos utilizando tu función de generación
+ async function obtenerRecursos(materia) {
     const prompt = `puedes darme 5 recursos didácticos en la materia de ${materia} con estructura json sin los 3 puntos?`;
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
     const result = await model.generateContent(prompt);
     const response = await result.response;
     
     // Remover las comillas triples invertidas y espacios innecesarios al inicio y al final
-    const jsonText = response.text().replace(/^\s+/, '').replace(/\s+$/, '');
+    const jsonText = response.text().replace(/^```\s+/, '').replace(/\s+```$/, '');
 
     console.log('Contenido de jsonText:', jsonText);
     // Convertir el texto a un objeto JSON
@@ -62,7 +62,25 @@ async function obtenerRecursos(materia) {
             break;
         }
     }
+
+    if (!recursosFieldName || !recursosData) {
+        throw new Error('No se encontró ningún campo que contenga los recursos.');
+    }
+
+    // Extraer solo los atributos de cada recurso y crear un nuevo arreglo con ellos
+    const atributosRecursos = recursosData.map(recurso => {
+        const atributos = {};
+        for (const key in recurso) {
+            if (key !== recursosFieldName) {
+                atributos[key] = recurso[key];
+            }
+        }
+        return atributos;
+    });
+
+    return atributosRecursos;
 }
+
 //GET
 //Listar Materias
 const getMaterias = async (req, res) => {
