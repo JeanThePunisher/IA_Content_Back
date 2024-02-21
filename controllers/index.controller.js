@@ -97,7 +97,7 @@ const getMaterias = async (req, res) => {
 const listarCursos = async (req, res) => {
     try {
         const query = `
-        SELECT m.nombre AS materia, 
+        SELECT a.id_recurso, m.nombre AS materia, 
         rm.titulo AS titulo_recurso_metodologico, 
         a.titulo AS titulo_actividad, 
         p.nombres, 
@@ -175,19 +175,16 @@ const listarActividadesEstudiante = async (req, res) => {
 const listarActividadesPendientes = async (req, res) => {
     try {
         const id_persona = req.params.id_persona; // Obtener el id_persona de la URL
-
-        const query = `
-            SELECT rm.id_recurso,
+        const query = 
+        `SELECT rm.id_recurso,
                    m.nombre as materia,
                    a.titulo as actividad, 
                    a.contenido as instruccion
-            FROM actividad_estudiante ae
-            INNER JOIN actividad a ON a.id_actividad = ae.id_actividad
+            FROM actividad a
             INNER JOIN recurso_metodologico rm ON rm.id_recurso = a.id_recurso
             INNER JOIN materias m ON m.id_materia = rm.id_materia
-            INNER JOIN usuario u ON ae.id_usuario = u.id_usuario
-            INNER JOIN persona p ON p.id_persona = u.id_persona
-            WHERE u.id_persona != $1`; // Filtrar excluyendo el id_persona
+            LEFT JOIN actividad_estudiante ae ON a.id_actividad = ae.id_actividad AND ae.id_usuario = $1
+            WHERE ae.id_actividad IS NULL`;
 
         const result = await pool.query(query, [id_persona]);
         const listaDeActividades = result.rows;
