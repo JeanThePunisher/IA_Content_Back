@@ -201,26 +201,27 @@ const DetalleRecurso = async (req, res) => {
     try {
         const id_recurso = req.params.id_recurso; // Obtener el id_recurso de la URL
 
-        const query = `
-            SELECT m.nombre as materia,
-                   rm.titulo as titulo,
+        const query = 
+        `SELECT rm.id_recurso,
+                   m.nombre AS materia,
+                   rm.titulo AS titulo,
                    rm.contenido,
-                   a.contenido as instruccion
-            FROM actividad_estudiante ae
-            INNER JOIN actividad a ON a.id_actividad = ae.id_actividad
-            INNER JOIN recurso_metodologico rm ON rm.id_recurso = a.id_recurso
+                   a.contenido AS instruccion
+            FROM recurso_metodologico rm
+            INNER JOIN actividad a ON a.id_recurso = rm.id_recurso
             INNER JOIN materias m ON m.id_materia = rm.id_materia
-            WHERE rm.id_recurso = $1`; // Filtrar por id_recurso
+            WHERE rm.id_recurso = $1`;
 
         const result = await pool.query(query, [id_recurso]);
-        const listaDeActividades = result.rows;
+        const detallesRecurso = result.rows;
 
-        res.status(200).json({ listaDeActividades });
+        res.status(200).json({ detallesRecurso });
     } catch (error) {
         console.error(error);
         res.status(500).json({ mensaje: 'Error interno del servidor' });
     }
 }
+
 
 
 //POST
