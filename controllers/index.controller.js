@@ -365,18 +365,18 @@ const listar_actividad_estudiante = async (req, res) => {
 
         const query = 
         `SELECT ae.id_actividad_estudiante,
-                   m.nombre AS materia,
-                   a.titulo AS actividad, 
-                   p.nombres,
-                   p.apellidos,
-                   ae.respuesta,
-                   ae.calificacion
-            FROM actividad_estudiante ae
-            LEFT JOIN actividad a ON ae.id_actividad = a.id_actividad
-            INNER JOIN usuario u ON ae.id_usuario = u.id_usuario
-            INNER JOIN recurso_metodologico rm ON rm.id_recurso = a.id_recurso
-            INNER JOIN materias m ON m.id_materia = rm.id_materia
-            INNER JOIN persona p ON p.id_persona = u.id_persona
+        m.nombre AS materia,
+        a.titulo AS actividad, 
+        p.nombres,
+        p.apellidos,
+        ae.calificacion,
+        ae.id_usuario 
+ FROM actividad_estudiante ae
+ LEFT JOIN actividad a ON ae.id_actividad = a.id_actividad
+ INNER JOIN usuario u ON ae.id_usuario = u.id_usuario
+ INNER JOIN recurso_metodologico rm ON rm.id_recurso = a.id_recurso
+ INNER JOIN materias m ON m.id_materia = rm.id_materia
+ INNER JOIN persona p ON p.id_persona = u.id_persona
             WHERE rm.id_persona = $1;`
 
         const result = await pool.query(query, [id_persona]);
