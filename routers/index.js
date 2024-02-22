@@ -14,8 +14,10 @@ const {getMaterias,
     registrarActividad,
     registrarActividadEstudiante,
     editarActividadEstudiante,
+    listar_actividad_estudiante
     } = require('../controllers/index.controller')
 
+router.get('/listar_actividad_estudiante/:id_persona', listar_actividad_estudiante); 
 router.get('/materias', getMaterias);
 router.get('/cursos', listarCursos);
 router.get('/listar-cursos/:id_usuario', listarCursosUsuario);
