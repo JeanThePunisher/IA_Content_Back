@@ -369,6 +369,7 @@ const listar_actividad_estudiante = async (req, res) => {
                    a.titulo AS actividad, 
                    p.nombres,
                    p.apellidos,
+                   ae.respuesta,
                    ae.calificacion
             FROM actividad_estudiante ae
             LEFT JOIN actividad a ON ae.id_actividad = a.id_actividad
