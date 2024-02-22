@@ -370,7 +370,8 @@ const listar_actividad_estudiante = async (req, res) => {
         p.nombres,
         p.apellidos,
         ae.calificacion,
-        ae.id_usuario 
+        ae.id_usuario,
+		ae.respuesta
  FROM actividad_estudiante ae
  LEFT JOIN actividad a ON ae.id_actividad = a.id_actividad
  INNER JOIN usuario u ON ae.id_usuario = u.id_usuario
