@@ -176,7 +176,7 @@ const listarActividadesPendientes = async (req, res) => {
     try {
         const id_persona = req.params.id_persona; // Obtener el id_persona de la URL
         const query = 
-        `SELECT rm.id_recurso,
+        `SELECT rm.id_recurso, a.id_actividad,
                    m.nombre as materia,
                    a.titulo as actividad, 
                    a.contenido as instruccion
