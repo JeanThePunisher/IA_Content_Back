@@ -97,7 +97,7 @@ const getMaterias = async (req, res) => {
 const listarCursos = async (req, res) => {
     try {
         const query = `
-        SELECT a.id_recurso, m.nombre AS materia, 
+        SELECT a.id_recurso, a.id_actividad, m.nombre AS materia, 
         rm.titulo AS titulo_recurso_metodologico, 
         a.titulo AS titulo_actividad, 
         p.nombres, 
